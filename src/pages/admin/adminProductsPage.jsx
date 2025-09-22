@@ -1,117 +1,79 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-export default function AdminProductPage(){
+import { FaPlus, FaTrash } from "react-icons/fa"
+import { FaPencil } from "react-icons/fa6"
+import { Link } from "react-router-dom"
 
-    const [products,setProducts] = useState([
-    {
-        "_id": "68b55fa3ffe165114aa99353",
-        "productId": "B2001",
-        "productName": "Herbal Shampoo",
-        "altNames": [
-            "Natural Hair Cleanser",
-            "Ayurvedic Shampoo",
-            "Organic Shampoo"
-        ],
-        "images": [
-            "https://example.com/images/shampoo-front.jpg",
-            "https://example.com/images/shampoo-back.jpg"
-        ],
-        "price": 1200,
-        "lastPrice": 1500,
-        "description": "A gentle herbal shampoo enriched with aloe vera and neem extract. Helps reduce dandruff, strengthens roots, and keeps your hair soft and shiny.",
-        "__v": 0
-    },
-    {
-        "_id": "68ccff3f9968ca459ffd2663",
-        "productId": "B2002",
-        "productName": "Matte Lipstick",
-        "altNames": [
-            "Long Lasting Lipstick",
-            "Velvet Matte Lip Color",
-            "Non-Smudge Lipstick"
-        ],
-        "images": [
-            "https://example.com/images/lipstick1.jpg",
-            "https://example.com/images/lipstick2.jpg"
-        ],
-        "price": 950,
-        "lastPrice": 1100,
-        "description": "A richly pigmented matte lipstick that provides full coverage with a smooth finish. Long-lasting formula keeps your lips vibrant all day without smudging.",
-        "__v": 0
-    }
-])
+export default function AdminProductPage() {
+  const [products, setProducts] = useState([])
 
-useEffect(
-    ()=>{
-    axios.get("http://localhost:3000/api/products").then(
-        (res)=>{
-    console.log(res.data);
-    setProducts(res.data);
-    console.log({
-        discountTitle:"summer sale",
-        products:products[0],
-    });
-    console.log({
-        discountTitle:"summer sale"
-    });
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/products").then((res) => {
+      console.log(res.data)
+      setProducts(res.data)
+    })
+  }, [])
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-8 relative">
+      
+      {/* Page Title */}
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">
+        Admin Product Page
+      </h1>
+
+      {/* Product Table */}
+      <div className="overflow-x-auto bg-white shadow-lg rounded-2xl">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-blue-600 text-white text-left">
+              <th className="py-3 px-4">Product ID</th>
+              <th className="py-3 px-4">Product Name</th>
+              <th className="py-3 px-4">Price</th>
+              <th className="py-3 px-4">Last Price</th>
+              <th className="py-3 px-4">Description</th>
+              <th className="py-3 px-4 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product, index) => (
+              <tr
+                key={index}
+                className="border-b hover:bg-gray-50 transition-colors"
+              >
+                <td className="py-3 px-4 text-gray-700 font-medium">
+                  {product.productId}
+                </td>
+                <td className="py-3 px-4 text-gray-800 font-semibold">
+                  {product.productName}
+                </td>
+                <td className="py-3 px-4 text-green-600 font-bold">
+                  Rs. {product.price}
+                </td>
+                <td className="py-3 px-4 text-red-500 line-through">
+                  Rs. {product.lastPrice}
+                </td>
+                <td className="py-3 px-4 text-gray-600 max-w-xs truncate">
+                  {product.description}
+                </td>
+                <td className="py-3 px-4 flex items-center justify-center gap-3">
+                  <button className="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition">
+                    <FaTrash size={16} />
+                  </button>
+                  <button className="p-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition">
+                    <FaPencil size={16} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Floating Add Button */}
+      <Link to="/admin/products/addProduct" className="fixed bottom-10 right-10 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition">
+        <FaPlus size={20} />
+      </Link>
+    </div>
+  )
 }
-)
-
-},[]
-)
-
-    
-
-    
-
-    return(
-        <div>
-            <h1>Admin Product Page</h1>
-            
-            <table>
-                <thead>
-                    
-                        <th>Product ID</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Last Price</th>
-                        <th>Stock</th>
-                        <th>Description</th>
-                    
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>1234</th>
-                        <th>Face Serum</th>
-                        <th>24.99</th>
-                        <th>29.99</th>
-                        <th>200</th>
-                        <th>Hydration Face Serum</th>
-                    </tr>
-
-                    <tr>
-                        <th>12345</th>
-                        <th>Face Cream</th>
-                        <th>30.99</th>
-                        <th>28.99</th>
-                        <th>100</th>
-                        <th>Hydration Face Cream</th>
-                    </tr>
-
-                    <tr>
-                        <th>123456</th>
-                        <th>Face Oil</th>
-                        <th>30.99</th>
-                        <th>28.99</th>
-                        <th>100</th>
-                        <th>Hydration Face Oil</th>
-                    </tr>
-                </tbody>
-            </table>    
-            
-                
-
-        </div>
-    )
-}
-
