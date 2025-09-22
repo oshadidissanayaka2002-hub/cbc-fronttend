@@ -8,6 +8,7 @@ import HomePage from './pages/homePage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import SignUpPage from './pages/signupPage'
 import AdminHomePage from './pages/adminHomePage'
+import { Toaster } from 'react-hot-toast'
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+      <Toaster></Toaster>
 
       <Routes path="/*">
       
